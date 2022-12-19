@@ -26,7 +26,7 @@ app.use((req, res, next) => { // header pour CORS
   });
 
 app.use('/api/sauces', sauceRoutes);
-app.use('/api/auth', userRoutes); // racine des routes lié à l'autentification
+app.use('/api/auth', userRoutes); 
 app.use('/images', express.static(path.join(__dirname, 'images'))); // express.static pour diriger les images vers le le répertoire (path pour chemin absolu)
 
 module.exports = app;

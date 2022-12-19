@@ -20,7 +20,7 @@ const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
- * recherche les différentes erreurs et les gère de manière appropriée. Elle sera enregistrée dans le serveur 
+ * recherche les différentes erreurs et les gère de manière appropriée
  */
 const errorHandler = error => {
   if (error.syscall !== 'listen') {
@@ -30,11 +30,11 @@ const errorHandler = error => {
   const bind = typeof address === 'string' ? 'pipe ' + address : 'port: ' + port;
   switch (error.code) {
     case 'EACCES':
-      console.error(bind + ' requires elevated privileges.');
+      console.error(bind + " nécessite des privilèges élevés ");
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      console.error(bind + ' is already in use.');
+      console.error(bind + " déja en cours d'utilisation ");
       process.exit(1);
       break;
     default:
@@ -43,11 +43,11 @@ const errorHandler = error => {
 };
 
 const server = http.createServer(app);
-
+// errorHandler enregistré dans le serveur
 server.on('error', errorHandler);
 server.on('listening', () => {
   const address = server.address();
-  const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
+  const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port; 
   console.log('Listening on ' + bind);
 });
 
