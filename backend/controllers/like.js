@@ -1,14 +1,14 @@
 const Sauce = require('../models/Sauce'); 
 
 /**
- * Recherche dans la BDD l'_id correspondant à la sauce likée -- Selon cette sauce : 
+ * Recherche dans la BDD l'_id correspondant à la sauce likée -- Selon cette sauce et ses info : 
  * 1ère option (l'utilisateur a déjà like) :
- *      Méthode includes() - détermine si la BDD "usersLiked" contient l'userID de l"utilisateur qui souhaite like la sauce
+ *      Méthode includes() - détermine si "usersLiked" contient l'userID de l"utilisateur qui souhaite like la sauce
  *      incrémente ($inc) -1 like et supprime ($pull) l'userID de la BDD "usersLiked" - condition qui empêchera d'ajouter plusieurs likes
- * 2ème option (l'utilisaneur n'a jamais like car il ne remplis pas la condition précédente) : le like vaux 1 
+ * 2ème option (l'utilisateur n'a jamais like car il ne remplis pas la condition précédente) : le like vaux 1 
  *      incrémente ($inc) le like dans la BDD et ajoute ($push) l'userID de l'utilisateur dans "usersLiked"
  * 3ème option (L'utilisateur a déjà dislike) : 
- *      Méthode includes() - détermine si la BDD "usersDisliked" contient l'userID de l"utilisateur qui souhaite dislike la sauce
+ *      Méthode includes() - détermine si "usersDisliked" contient l'userID de l"utilisateur qui souhaite dislike la sauce
  *      incrémente ($inc) -1 like et supprime ($pull) l'userID de la BDD "usersDisliked" - condition qui empêchera d'ajouter plusieurs dislikes
  * 4ème option (l'utilisateur n'a jamais dislike car il ne remplis pas la condition précédente) : le like vaux -1
  *      incrémente ($inc) le dislike dans la BDD et ajoute ($push) l'userID de l"utilisateur dans "usersdisliked"
