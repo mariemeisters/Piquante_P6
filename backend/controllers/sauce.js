@@ -96,7 +96,7 @@ exports.getAllSauce = (req, res, next) => { //get
     Sauce.find()
       .then(sauces => res.status(200).json(sauces))
       .catch(error => res.status(400).json({ error }));
-  }
+}
 
 /**
  * Recherche dans la BDD l'id qui est le même que l'id de l'objet selectionné (parametre de requête :id)
