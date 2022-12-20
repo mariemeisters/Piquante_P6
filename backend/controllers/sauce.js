@@ -30,9 +30,7 @@ exports.createSauce = (req, res, next) => { //post
  * sauceObjet = récupère les modifications effectuée en indiquant le nom d'hote pour l'image (dossier image)
  * Supression du champ _userId envoyé par le client afin d’éviter de changer son propriétaire 
  * Recherche dans la BDD l'_id en récupérant l'id de la sauce dans l'url 
- * Vérification que le requérant est bien le propriétaire de l’objet
- * S'il existe, on traite la nouvelle image, s'il n'existe pas, on traite simplement l'objet entrant 
- * Recherche selon le modèle de la sauce dans la BDD Mongodb avec findOne() - si l'utilisateur est authentifié
+ * Recherche dans la BDD Mongodb avec findOne() 
  * - suppression de l'ancienne image avec fs.unlink + filename (méthode split pour séparer le nom de fichier)
  * - mise à jour de la BDD avec UpdateOne() avec ce qui a été passé dans sauceObject
 */
@@ -44,32 +42,33 @@ exports.modifySauce = (req, res, next) => { // put
 
     delete sauceObject._userId;
     Sauce.findOne({_id: req.params.id})
-        .then((sauce) => {
-            if (sauce.userId != req.auth.userId ){ // vérifie (decode) si l'utilisateur qui a créé la sauce est bien celui qui souhaite la modifier 
-                res.status(401).json({message: 'Non autorisé'});
-            } else {
+        .then ((sauce) => {
+            if (sauceObject.imageUrl != Sauce.imageUrl) {
                 const filename = sauce.imageUrl.split('/images/')[1];
                 fs.unlink(`images/${filename}`, function (err) {
                     if (err) throw err;
                     console.log('file deleted.');
-                });
-                Sauce.updateOne({_id: req.params.id}, {...sauceObject, _id: req.params.id})
-                .then(() => res.status(200).json({message : 'Sauce modifiée'}))
-                .catch(error => res.status(401).json({error}));
+                })
             }
+        })
+        .then(() => {
+            Sauce.updateOne({_id: req.params.id}, {...sauceObject, _id: req.params.id})
+            .then(() => res.status(200).json({message : 'Sauce modifiée'}))
+            .catch(error => res.status(401).json({error}));
         })
         .catch((error) => {
             res.status(400).json({error});
         });
+    
 };
 
 /**
  * Methode FindOne avec l'ID que nous recevons comme paramètre pour accéder au sauce correspondante dans la base de données 
  * Vérification : si l'’utilisateur qui a fait la requête de suppression est bien celui qui a créé la sauce
  * méthode split du fait de savoir que notre URL d'image contient un segment /images/ pour séparer le nom de fichier
- * a fonction unlink du package fs pour supprimer ce fichier
+ * fs.unlink du package fs pour supprimer ce fichier
  * en lui passant le fichier à supprimer et le callback à exécuter une fois ce fichier supprimé
- * Dans le callback, logique d'origine en supprimant la sauce de la base de données
+ * Dans la promesse, supprime la sauce de la base de données
 */
 exports.deleteSauce = (req, res, next) => { //delete
     Sauce.findOne({ _id: req.params.id})

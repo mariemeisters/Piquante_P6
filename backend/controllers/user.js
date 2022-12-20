@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken'); // permets de créer et vérifier des tokens
+const jwt = require('jsonwebtoken'); // permets de créer un token encodé (avec l'userId)
 // récupère le modele user
 const User = require('../models/User');
 
