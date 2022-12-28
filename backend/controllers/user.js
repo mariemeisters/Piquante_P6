@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken'); // permets de créer un token encodé (avec
 const User = require('../models/User');
 
 /**
- * Préparation du regex pour le mdp, méthode test pour vérifier, si ok :
+ * Préparation du regex pour le mdp (Minimum huit caractères, au moins une lettre et un chiffre), méthode test pour vérifier, si ok :
  * Appel de la fonction de hachage de bcrypt dans le mot de passe et  « sale » le mot de passe 10 fois -- chaîne de caractères aléatoires avant de calculer l'empreinte md5 
  * fonction asynchrone qui renvoie une Promise dans laquelle nous recevons le hash généré ;
  * création d'un utilisateur et l'enregistrons dans la base de données 
