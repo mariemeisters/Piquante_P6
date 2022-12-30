@@ -2,7 +2,7 @@ const multer = require('multer'); // middleware d'express
 /**
  * Dictionnaire de type MIME 
  */
-const MINE_TYPES = { // minetype génére l'extension du fichier
+const MIME_TYPES = { // minetype génére l'extension du fichier
     'image/jpg' : 'jpg',
     'image/jpeg': 'jpg',
     'image/png': 'png',
@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, callback) => {
         const name = file.originalname.split(' ').join('_');
-        const extention = MINE_TYPES[file.mimetype];
+        const extention = MIME_TYPES[file.mimetype];
         callback(null, name + Date.now() + '.' + extention);
     }, 
 });
